@@ -62,7 +62,11 @@ module Jekyll
             next unless !a.get_attribute('rel') || a.get_attribute('rel').empty?
             # Skip whitelisted hosts for the 'rel' attribute
             next if rel_exclude && contains_any(a.get_attribute('href'), rel_exclude)
+          elsif attr.downcase == 'class'
+            # Preserve any class attribute values that are already set
+            value = "#{a.get_attribute(attr)} #{value}" if a.get_attribute(attr)
           end
+
           a.set_attribute(attr, value)
         end
       end
